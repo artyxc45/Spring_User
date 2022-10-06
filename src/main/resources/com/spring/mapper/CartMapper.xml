@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+  <mapper namespace="com.spring.mapper.CartMapper">
+  
+  	<select id="getList" resultType="com.spring.domain.CartVO">
+	    SELECT
+	        A.CART_CODE AS CART_CODE,
+	        B.PD_CODE AS PD_CODE,
+	        B.PD_TITLE AS PD_TITLE,
+	        B.PD_CONTENT AS PD_CONTENT,
+	        (SELECT FILENAME FROM PD_IMAGE WHERE pd_image.pd_code = B.pd_code) AS PD_IMAGE,
+	        B.ADMIN AS ADMIN,
+	        B.PRICE AS PRICE,
+	        A.CART_COUNT AS PD_AMOUNT,
+	        B.PRICE * A.CART_COUNT AS PD_TOTALPRICE
+	    FROM TB_CART A JOIN pd_regist B ON A.PD_CODE = b.pd_code
+	    WHERE USER_NO = #{userNo}
+  	</select>
+  	
+  	<select id="getList2" resultType="com.spring.domain.CartVO">
+	    SELECT
+	        A.CART_CODE AS CART_CODE,
+	        B.PD_CODE AS PD_CODE,
+	        B.PD_TITLE AS PD_TITLE,
+	        B.PD_CONTENT AS PD_CONTENT,
+	        (SELECT FILENAME FROM PD_IMAGE WHERE pd_image.pd_code = B.pd_code) AS PD_IMAGE,
+	        B.ADMIN AS ADMIN,
+	        B.PRICE AS PRICE,
+	        A.CART_COUNT AS PD_AMOUNT,
+	        B.PRICE * A.CART_COUNT AS PD_TOTALPRICE
+	    FROM TB_CART A JOIN pd_regist B ON A.PD_CODE = b.pd_code
+	    WHERE USER_NO = #{userNo}
+  	</select>
+  	<update id="updateCart" parameterType="com.spring.domain.CartVO">
+	  	UPDATE 
+	  		TB_CART
+		SET
+		    CART_COUNT = #{CART_COUNT}
+		WHERE
+		    CART_CODE = #{CART_CODE}
+  	</update>
+  	
+  	<delete id="delete">
+  		DELETE FROM TB_CART
+  		WHERE CART_CODE = 'AAA'
+  	</delete>
+  	
+  </mapper>
